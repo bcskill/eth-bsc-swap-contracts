@@ -95,9 +95,9 @@ contract  BSCSwapAgentImpl is Context, Initializable {
         require(!filledMainTx[mainChainTxHash], "eth tx filled already");
         address sideChainErc20Addr = swapMappingMain2Side[mainChainErc20Addr];
         require(sideChainErc20Addr != address(0x0), "no swap pair for this token");
-        require(IERC20(sideChainErc20Addr).balanceOf(msg.sender) >= amount, "Insufficient contract account balance");
+        require(IERC20(sideChainErc20Addr).balanceOf(address(this)) >= amount, "Insufficient contract account balance");
 
-        IERC20(sideChainErc20Addr).safeTransferFrom(msg.sender, sideChainToAddr, amount);
+        IERC20(sideChainErc20Addr).safeTransfer(sideChainToAddr, amount);
         filledMainTx[mainChainTxHash] = true;
 
         emit SwapFilled(mainChainTxHash, sideChainErc20Addr, sideChainToAddr, amount);

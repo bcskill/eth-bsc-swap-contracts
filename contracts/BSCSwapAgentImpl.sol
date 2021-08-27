@@ -19,8 +19,6 @@ contract  BSCSwapAgentImpl is Context, Initializable {
     mapping(bytes32 => bool) public createSwapPairTx;
 
     address payable public owner;
-    address public bep20ProxyAdmin;
-    address public bep20Implementation;
     uint256 public swapFee;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
@@ -42,11 +40,9 @@ contract  BSCSwapAgentImpl is Context, Initializable {
        _;
     }
 
-    function initialize(address bep20Impl, uint256 fee, address payable ownerAddr, address bep20ProxyAdminAddr) public initializer {
-        bep20Implementation = bep20Impl;
-        swapFee = fee;
+    function initialize(address payable ownerAddr, uint256 fee) public initializer {
         owner = ownerAddr;
-        bep20ProxyAdmin = bep20ProxyAdminAddr;
+        swapFee = fee;
     }
 
     function isContract(address addr) internal view returns (bool) {
